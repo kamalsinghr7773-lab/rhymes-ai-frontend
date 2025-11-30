@@ -1,28 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rhymes AI Generator</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rhymes AI</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2ff;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 550px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    h1 {
+      text-align: center;
+      font-size: 32px;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 12px;
+      font-size: 16px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #6633ff;
+      color: white;
+      border: none;
+      margin-top: 15px;
+      font-size: 18px;
+      border-radius: 8px;
+    }
+    #outputBox {
+      background: #eef;
+      padding: 14px;
+      border-radius: 8px;
+      margin-top: 18px;
+      white-space: pre-wrap;
+      font-size: 17px;
+    }
+  </style>
 </head>
+
 <body>
-  <div class="card">
+  <div class="container">
     <h1>Rhymes AI</h1>
 
-    <label for="prompt">Type prompt (Hinglish ok):</label>
-    <textarea id="prompt" placeholder='Write a short rhyme about a happy elephant.'></textarea>
+    <label>Type prompt (Hinglish ok):</label>
+    <textarea id="prompt"></textarea>
 
-    <div class="row">
-      <input id="duration" type="number" min="1" placeholder="Duration (optional)" />
-      <button id="generateBtn">Generate Rhyme</button>
-    </div>
+    <label>Duration (optional):</label>
+    <input id="duration" type="text" placeholder="Example: 30 seconds" />
 
-    <div id="status" class="status">Ready</div>
+    <button onclick="generateRhyme()">Generate Rhyme</button>
 
-    <div id="output" class="output" aria-live="polite"></div>
+    <div id="outputBox">Your rhyme will appear here...</div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const API_BASE = "https://backend-1-691r.onrender.com";
+
+    async function generateRhyme() {
+      const prompt = document.getElementById("prompt").value.trim();
+      const duration = document.getElementById("duration").value.trim();
+      const outputBox = document.getElementById("outputBox");
+
+      if (!prompt) {
+        outputBox.textContent = "Please enter a prompt!";
+        return;
+      }
+
+      outputBox.textContent = "Generating rhyme... Please wait...";
+
+      try {
+        const response = await fetch(API_BASE + "/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt, duration }),
+        });
+
+        const data = await response.json();
+        if (data.rhyme) {
+          outputBox.textContent = data.rhyme;
+        } else {
+          outputBox.textContent = "Error: Invalid response from backend";
+        }
+      } catch (err) {
+        outputBox.textContent =
+          "Could not contact backend.\nCheck backend URL and routes.";
+      }
+    }
+  </script>
 </body>
 </html>
