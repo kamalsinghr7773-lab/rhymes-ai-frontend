@@ -1,5 +1,5 @@
 // --- IMPORTANT: Set your backend base URL here (replace with your Render backend) ---
-const API_BASE = "https://backend-1-691r.onrender.com"; // <-- change if different
+const API_BASE = "https://backend-1-691r.onrender.com";
 
 const generateBtn = document.getElementById("generateBtn");
 const promptInput = document.getElementById("prompt");
