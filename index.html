@@ -1,21 +1,28 @@
-!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rhymes AI</title>
+  <title>Rhymes AI Generator</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="card">
     <h1>Rhymes AI</h1>
-    <textarea id="prompt" placeholder="Write a short rhyme prompt..."></textarea>
-    <div class="controls">
-      <select id="duration"><option value="30">Short (30s)</option><option value="60">Long (60s)</option></select>
-      <button id="generate">Generate</button>
+
+    <label for="prompt">Type prompt (Hinglish ok):</label>
+    <textarea id="prompt" placeholder='Write a short rhyme about a happy elephant.'></textarea>
+
+    <div class="row">
+      <input id="duration" type="number" min="1" placeholder="Duration (optional)" />
+      <button id="generateBtn">Generate Rhyme</button>
     </div>
-    <div id="output" class="output">Result will appear here.</div>
+
+    <div id="status" class="status">Ready</div>
+
+    <div id="output" class="output" aria-live="polite"></div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
